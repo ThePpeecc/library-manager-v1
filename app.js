@@ -10,6 +10,8 @@
 
 //We get our required module
 var express = require('express')
+var sequelize = require('./models').sequelize
+
 
 var app = express()
 
@@ -43,5 +45,7 @@ app.get('/loans', function(req, res) {
 
 
 
-/* We set the server to litsten at 127.0.0.1:3000*/
-app.listen(3000)
+/* We connect to the database and set the server to litsten at 127.0.0.1:3000*/
+sequelize.sync().then(function() {
+  app.listen(3000)
+})
