@@ -1,0 +1,10 @@
+tr
+  td
+    a(href='book_detail.html') #{loan.book.title}
+  td
+    a(href='patron_detail.html') #{loan.patron.first_name} #{loan.patron.last_name}
+  td #{loan.loaned_on}
+  td #{loan.return_by}
+  td #{loan.returned_on}
+  td
+    a.button(href='return_book.html') Return Book

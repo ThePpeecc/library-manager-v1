@@ -1,0 +1,8 @@
+extends layout
+//Here is the main content
+block content
+    h1 #{title}
+    include ./partials/_booksHeader.jade
+      tbody
+        each book in books
+         include ./partials/_book.jade

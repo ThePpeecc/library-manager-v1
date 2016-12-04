@@ -1,0 +1,17 @@
+extends layout
+//Here is the main content
+block content
+    h1 Patrons
+    p
+      a.button(href='new_patron.html') Create New Patron
+    table
+      thead
+        tr
+          th Name 
+          th Address
+          th Email
+          th Library ID
+          th Zip
+      tbody
+        each patron in patrons
+          include ./partials/_patron.jade

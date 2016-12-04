@@ -1,10 +1,10 @@
 /**
- * This file holds the server and route functionality
+ * This file holds the primary server and route functionality
  *
- * @summary   The module holds the route and server functionality, it also is the place where we render the jade files
+ * @summary   The module holds the primary route and server functionality, it also is the place where we render the jade files
  *
  * @since     07.11.2016
- * @requires Node.js & express
+ * @requires Node.js, express & sequelize
  * @NOTE     [For devs only this module also uses eslint for code quality]
  **/
 
@@ -12,8 +12,13 @@
 var express = require('express')
 var sequelize = require('./models').sequelize
 
+//we get our routes
+var books = require('./routes/books');
+var loans = require('./routes/loans');
+var patrons = require('./routes/patrons');
 
 var app = express()
+var router  = express.Router()
 
 //We setup our static server
 app.use('/static', express.static(__dirname + '/public'))
@@ -25,27 +30,17 @@ app.set('views', __dirname + '/views')
 
 /* GET home page. */
 app.get('/', function(req, res) {
-  res.render('index')
+    res.render('index')
 })
 
-/* GET books page. */
-app.get('/books', function(req, res) {
-  res.render('index')
-})
-
-/* GET patrons page. */
-app.get('/patrons', function(req, res) {
-  res.render('index')
-})
-
-/* GET loans page. */
-app.get('/loans', function(req, res) {
-  res.render('index')
-})
-
-
+/*We refer to our routes*/
+app.use('/books', books)
+app.use('/loans', loans)
+app.use('/patrons', patrons)
 
 /* We connect to the database and set the server to litsten at 127.0.0.1:3000*/
 sequelize.sync().then(function() {
-  app.listen(3000)
+    app.listen(3000)
 })
+
+module.exports = app
