@@ -16,7 +16,7 @@ var books = require('../models').books
 var patrons = require('../models').patrons
 var loans = require('../models').loans
 
-var router  = express.Router()
+var router = express.Router()
 
 /* GET books page. */
 router.get('/allBooks', function(req, res) {
@@ -40,7 +40,7 @@ router.get('/overdueBooks', function(req, res) {
         }],
         where: {
             return_by: {
-                lte: new Date()
+                lte: new Date() //Less than today
             },
             returned_on: null
         },
@@ -87,8 +87,63 @@ router.get('/checkedBooks', function(req, res) {
         console.log(books);
         res.render('allBooks', { //We render the table with all the books
             books: books,
-            title: 'Checked Books'
+            title: 'Checked Out Books'
         })
+    })
+})
+
+router.get('/new', function(req, res) {
+    res.render('bookDetail', {
+        book: books.build(),
+        title: 'New Book',
+        buttonTitle: 'Create New Book',
+        id: '',
+        includeLoans: false
+    })
+})
+
+//Get the details page of a book
+router.get('/:id', function(req, res) {
+    books.findAll({
+        include: [{
+            model: loans, //We get the loans of the book
+            include: [{
+                model: patrons, //we get the patrons of the loans
+                as: 'patron'
+            }, {
+                model: books, //We also get the book again, so we can reuse the _loan partial
+                as: 'book'
+            }]
+        }],
+        where: {
+            id: req.params.id
+        }
+    }).then(function(books) {
+
+      var book = books[0]
+      
+      res.render('bookDetail', {
+          book: book,
+          title: book.title,
+          buttonTitle: 'Save Edits',
+          id: 'update/' + book.id,
+          includeLoans: true,
+          loans: book.loans
+      })
+    })
+})
+
+router.post('/', function(req, res) {
+    books.create(req.body).then(function(book) {
+        res.redirect("../books/allBooks")
+    })
+})
+
+router.post('/update/:id', function(req, res) {
+    books.findById(req.params.id).then(function(book) {
+        return book.update(req.body)
+    }).then(function(book) {
+        res.redirect("../" + req.params.id)
     })
 })
 

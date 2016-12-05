@@ -4,13 +4,15 @@
  * @summary   The module holds the primary route and server functionality, it also is the place where we render the jade files
  *
  * @since     07.11.2016
- * @requires Node.js, express & sequelize
+ * @requires Node.js, express, body-parser & sequelize
  * @NOTE     [For devs only this module also uses eslint for code quality]
  **/
 
 //We get our required module
 var express = require('express')
 var sequelize = require('./models').sequelize
+var bodyParser = require('body-parser')
+
 
 //we get our routes
 var books = require('./routes/books');
@@ -22,6 +24,10 @@ var router  = express.Router()
 
 //We setup our static server
 app.use('/static', express.static(__dirname + '/public'))
+app.use( bodyParser.json() )       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}))
 
 //We specifi where to find our templates
 app.set('view engine', 'jade')

@@ -1,10 +1,19 @@
 tr
   td
-    a(href='book_detail.html') #{loan.book.title}
+    a(href='/books/' + loan.book.id) #{loan.book.title}
   td
-    a(href='patron_detail.html') #{loan.patron.first_name} #{loan.patron.last_name}
-  td #{loan.loaned_on}
-  td #{loan.return_by}
-  td #{loan.returned_on}
-  td
-    a.button(href='return_book.html') Return Book
+    a(href='/patrons/' + loan.patron.id) #{loan.patron.first_name} #{loan.patron.last_name}
+  td #{new Date(loan.loaned_on).toDateString()}
+  td #{new Date(loan.return_by).toDateString()}
+  
+  if loan.returned_on != null 
+    td #{new Date(loan.returned_on).toDateString()}
+  else
+    td
+    
+  if loan.returned_on == null
+    td 
+     a.button(href='/loans/' + loan.id) Return Book
+  else
+    td
+   

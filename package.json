@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ThePpeecc/library-manager-v1#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "jade": "^1.11.0",
     "sequelize": "^3.27.0",

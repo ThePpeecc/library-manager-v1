@@ -16,7 +16,7 @@ var books = require('../models').books
 var patrons = require('../models').patrons
 var loans = require('../models').loans
 
-var router  = express.Router()
+var router = express.Router()
 
 /* GET patrons page. */
 router.get('/allPatrons', function(req, res) {
@@ -29,6 +29,60 @@ router.get('/allPatrons', function(req, res) {
         res.render('allPatrons', {
             patrons: patrons
         })
+    })
+})
+
+router.get('/new', function(req, res) {
+    res.render('patronDetail', {
+        patron: patrons.build(),
+        title: 'New Patron',
+        buttonTitle: 'Create New Patron',
+        id: 'create',
+        includeLoans: false
+    })
+})
+
+router.get('/:id', function(req, res) {
+  patrons.findAll({
+      include: [{
+          model: loans, //We get the loans of the book
+          include: [{
+              model: patrons, //We get the patrons again, so we can reuse the _loan partial
+              as: 'patron'
+          }, {
+              model: books, //We also get the book
+              as: 'book'
+          }]
+      }],
+      where: {
+          id: req.params.id
+      }
+  }).then(function(patrons) {
+
+    var patron = patrons[0]
+
+    res.render('patronDetail', {
+        patron: patron,
+        title: patron.title,
+        buttonTitle: 'Save Edits',
+        id: 'update/' + patron.id,
+        includeLoans: true,
+        loans: patron.loans
+    })
+  })
+})
+
+router.post('/update/:id', function(req, res) {
+    patrons.findById(req.params.id).then(function(patron) {
+        return patron.update(req.body)
+    }).then(function(patron) {
+        res.redirect("../" + req.params.id)
+    })
+})
+
+router.post('/create', function(req, res) {
+    patrons.create(req.body).then(function(patron) {
+        res.redirect('../patrons/allPatrons')
     })
 })
 
