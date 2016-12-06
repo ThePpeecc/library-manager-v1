@@ -18,6 +18,10 @@ block content
     p
       input(type='submit', value=buttonTitle)
       
+  if errors != null 
+    each error in errors
+      p(class='error') #{error.message}
+            
   if includeLoans
     h2 Loan History
     include ./partials/_loansTable.jade

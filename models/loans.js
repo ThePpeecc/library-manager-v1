@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = function(sequelize, DataTypes) {
     var loans = sequelize.define('loans', {
         id: {
@@ -6,24 +6,59 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true // Automatically gets converted to SERIAL for postgres
         },
-        book_id: DataTypes.INTEGER,
-        patron_id: DataTypes.INTEGER,
-        loaned_on: DataTypes.DATE,
-        return_by: DataTypes.DATE,
-        returned_on: DataTypes.DATE
+        book_id: {
+            type: DataTypes.INTEGER,
+            validate: {
+                notEmpty: {
+                    msg: 'A loaned book is nessesary'
+                }
+            }
+        },
+        patron_id: {
+            type: DataTypes.INTEGER,
+            validate: {
+                notEmpty: {
+                    msg: 'A patron is required'
+                }
+            }
+        },
+        loaned_on: {
+            type: DataTypes.DATE,
+            validate: {
+                notEmpty: {
+                    msg: 'Loaned on Date is required'
+                }
+            }
+        },
+        return_by: {
+            type: DataTypes.DATE,
+            validate: {
+                notEmpty: {
+                    msg: 'Retrun by Date is required'
+                }
+            }
+        },
+        returned_on: {
+            type: DataTypes.DATE,
+            validate: {
+                isDate: {
+                    msg: 'Valid Date is required in the returned on date'
+                }
+            }
+        }
     }, {
         classMethods: {
             associate: function(models) {
                 // associations can be defined here
                 loans.belongsTo(models.patrons, {
                     foreignKey: 'patron_id'
-                });
+                })
                 loans.belongsTo(models.books, {
                     foreignKey: 'book_id'
-                });
+                })
             }
         },
         timestamps: false
-    });
-    return loans;
-};
+    })
+    return loans
+}

@@ -15,9 +15,19 @@ block content
             option(value=patron.id) #{patron.first_name} #{patron.last_name}
       p
         label(for='loaned_on') Loaned on:
-        input#loaned_on(type='text' name="loaned_on" value=today.toDateString())
+        if errors == null 
+          input#loaned_on(type='text' name="loaned_on" value=today.toDateString())
+        else 
+          input#loaned_on(type='text' name="loaned_on" value=today)
       p
         label(for='return_by') Return by:
-        input#return_by(type='text' name='return_by' value=tomorrow.toDateString())
+        if errors == null 
+          input#return_by(type='text' name='return_by' value=tomorrow.toDateString())
+        else 
+          input#return_by(type='text' name='return_by' value=tomorrow)
       p
         input(type='submit', value='Create New Loan')
+        
+    if errors != null 
+      each error in errors
+        p(class='error') #{error.message}

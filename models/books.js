@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = function(sequelize, DataTypes) {
     var books = sequelize.define('books', {
         id: {
@@ -6,9 +6,30 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true // Automatically gets converted to SERIAL for postgres
         },
-        title: DataTypes.STRING,
-        author: DataTypes.STRING,
-        genre: DataTypes.STRING,
+        title: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'Title is required'
+                }
+            }
+        },
+        author: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'Author is needed'
+                }
+            }
+        },
+        genre: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'A genre is required to be specifed'
+                }
+            }
+        },
         first_published: DataTypes.INTEGER
     }, {
         classMethods: {
@@ -20,6 +41,6 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         timestamps: false
-    });
-    return books;
-};
+    })
+    return books
+}

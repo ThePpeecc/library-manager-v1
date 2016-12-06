@@ -23,6 +23,10 @@ block content
         input#zip_code(type='text' name='zip_code' value=patron.zip_code)
       p
         input(type='submit' value=buttonTitle)
+    
+    if errors != null 
+      each error in errors
+        p(class='error') #{error.message}
   
     if includeLoans
       h2 Loan History

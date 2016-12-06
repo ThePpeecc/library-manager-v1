@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = function(sequelize, DataTypes) {
     var patrons = sequelize.define('patrons', {
         id: {
@@ -6,12 +6,54 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true,
             autoIncrement: true // Automatically gets converted to SERIAL for postgres
         },
-        first_name: DataTypes.STRING,
-        last_name: DataTypes.STRING,
-        address: DataTypes.STRING,
-        email: DataTypes.STRING,
-        library_id: DataTypes.STRING,
-        zip_code: DataTypes.INTEGER
+        first_name: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'First name is required'
+                }
+            }
+        },
+        last_name: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'Last name is required'
+                }
+            }
+        },
+        address: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'An address is required'
+                }
+            }
+        },
+        email: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'An email is required'
+                }
+            }
+        },
+        library_id: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'The patron needs a library id'
+                }
+            }
+        },
+        zip_code: {
+            type: DataTypes.INTEGER,
+            validate: {
+                notEmpty: {
+                    msg: 'Zip code is required'
+                }
+            }
+        }
     }, {
         classMethods: {
             associate: function(models) {
@@ -22,6 +64,6 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         timestamps: false
-    });
-    return patrons;
-};
+    })
+    return patrons
+}
