@@ -180,6 +180,7 @@ router.post('/', function(req, res) {
     })
 })
 
+//Updates a book at a certain id
 router.post('/update/:id', function(req, res) {
     books.findById(req.params.id).then(function(book) { //We find the book
         if (book) { //If we have the book
@@ -188,7 +189,7 @@ router.post('/update/:id', function(req, res) {
             res.sendStatus(404) //We send a 404 since we don't have a book
         }
     }).then(function() {
-        res.redirect('../' + req.params.id) //We redirect back to the details page
+        res.redirect('../books/allBooks')
     }).catch(function(err) { //We got an error
         if (err.name === 'SequelizeValidationError') { //Is it an error we can deal with
             getBookInfo(req.params.id).then(function(bookList) {

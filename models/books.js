@@ -30,7 +30,14 @@ module.exports = function(sequelize, DataTypes) {
                 }
             }
         },
-        first_published: DataTypes.INTEGER
+        first_published: {
+            type: DataTypes.INTEGER,
+            validate: {
+                isInt: {
+                    msg: 'First published needs to be a year like "1997"'
+                }
+            }
+        },
     }, {
         classMethods: {
             associate: function(models) {

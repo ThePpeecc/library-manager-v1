@@ -27,6 +27,9 @@ module.exports = function(sequelize, DataTypes) {
             validate: {
                 notEmpty: {
                     msg: 'Loaned on Date is required'
+                },
+                isDate: {
+                    msg: 'Valid Date is required in the loaned on date'
                 }
             }
         },
@@ -35,6 +38,9 @@ module.exports = function(sequelize, DataTypes) {
             validate: {
                 notEmpty: {
                     msg: 'Retrun by Date is required'
+                },
+                isDate: {
+                    msg: 'Valid Date is required in the return by date'
                 }
             }
         },

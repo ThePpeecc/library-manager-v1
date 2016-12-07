@@ -51,6 +51,9 @@ module.exports = function(sequelize, DataTypes) {
             validate: {
                 notEmpty: {
                     msg: 'Zip code is required'
+                },
+                isInt: {
+                    msg: 'The zip code needs to be a number like "6800"'
                 }
             }
         }
