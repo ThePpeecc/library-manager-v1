@@ -189,7 +189,7 @@ router.post('/update/:id', function(req, res) {
             res.sendStatus(404) //We send a 404 since we don't have a book
         }
     }).then(function() {
-        res.redirect('../books/allBooks')
+        res.redirect('../allBooks')
     }).catch(function(err) { //We got an error
         if (err.name === 'SequelizeValidationError') { //Is it an error we can deal with
             getBookInfo(req.params.id).then(function(bookList) {
